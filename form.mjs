@@ -5,6 +5,7 @@ const selectedUser = document.querySelector("#userSelection");
 const topicName = document.querySelector("#topicName");
 const submitBtn = document.querySelector(".btn");
 const firstDate = document.querySelector("#firstDate");
+const topicAdded = document.querySelector("#topicAdded");
 
 export function selectDate() {
 	// const firstDate = () => new Date().toLocaleDateString() here this creates d/m/yyyy output which is compatible with the browser but not with input type date in form
@@ -26,5 +27,5 @@ submitBtn.addEventListener("click", () => {
 		date: firstDateValue,
 	};
 	addData(selectedUserValue, [newEntry]);
-	alert("Topic added");
+	topicAdded.innerHTML = "Topic added";
 });
