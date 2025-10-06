@@ -9,7 +9,7 @@
  * @returns {any[] | null} The data associated with the user
  */
 export function getData(userId) {
-  return JSON.parse(localStorage.getItem(`stored-data-user-${userId}`));
+	return JSON.parse(localStorage.getItem(`stored-data-user-${userId}`));
 }
 
 /**
@@ -19,12 +19,12 @@ export function getData(userId) {
  * @param {any[]} data The data to store
  */
 export function addData(userId, data) {
-  const key = `stored-data-user-${userId}`;
+	const key = `stored-data-user-${userId}`;
 
-  const existingData = getData(userId) || [];
-  const newData = existingData.concat(data);
+	const existingData = getData(userId) || [];
+	const newData = existingData.concat(data);
 
-  localStorage.setItem(key, JSON.stringify(newData));
+	localStorage.setItem(key, JSON.stringify(newData));
 }
 
 /**
@@ -33,5 +33,5 @@ export function addData(userId, data) {
  * @param {string} userId The user id to clear associated data for
  */
 export function clearData(userId) {
-  localStorage.removeItem(`stored-data-user-${userId}`);
+	localStorage.removeItem(`stored-data-user-${userId}`);
 }

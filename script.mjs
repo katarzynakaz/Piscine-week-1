@@ -5,8 +5,10 @@
 // You can't open the index.html file using a file:// URL.
 
 import { getUserIds } from "./common.mjs";
+import { selectDate } from "./form.mjs";
 
 window.onload = function () {
-  const users = getUserIds();
-  document.querySelector("body").innerText = `There are ${users.length} users`;
+	const users = getUserIds();
+	document.querySelector("body").innerText = `There are ${users.length} users`;
+	selectDate();
 };
