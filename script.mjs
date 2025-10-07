@@ -9,6 +9,6 @@ import { selectDate } from "./form.mjs";
 
 window.onload = function () {
 	const users = getUserIds();
-	document.querySelector("body").innerText = `There are ${users.length} users`;
+	// document.querySelector("body").innerText = `There are ${users.length} users`; commented out as it was overriting the form
 	selectDate();
 };
