@@ -34,8 +34,8 @@ export function selectDate() {
 // 	topicAdded.innerHTML = "Topic added";
 // });
 
-cleanInput = () => topicName.value.trim().toUpperCase();
-//this is a shorter way of writing below code
+// cleanInput = () => topicName.value.trim().toUpperCase();
+//this is a shorter way of writing below code and instead of placing it in a helper function I assigned to a variable
 // //clean input
 // //remove space at start
 // topicNameValue =
@@ -55,7 +55,8 @@ form.addEventListener("submit", (event) => {
 
 	const selectedUserValue = selectedUser.value;
 	// let topicNameValue = topicName.value;
-	let topicNameValue = cleanInput();
+	let topicNameValue = topicName.value.trim().toUpperCase();
+
 	const firstDateValue = firstDate.value;
 
 	if (
