@@ -34,7 +34,18 @@ export function selectDate() {
 // 	topicAdded.innerHTML = "Topic added";
 // });
 
-// so this becomes:
+cleanInput = () => topicName.value.trim().toUpperCase();
+//this is a shorter way of writing below code
+// //clean input
+// //remove space at start
+// topicNameValue =
+// 	topicNameValue[0] === " " ? topicNameValue.slice(1) : topicNameValue;
+// //empty space at end
+// topicNameValue[topicNameValue.length - 1] === " "
+// 	? topicNameValue.slice(0, topicNameValue.length - 1)
+// 	: topicNameValue;
+
+// so the event listener becomes:
 const form = document.querySelector("form");
 const displayAgenda = document.querySelector("#displayAgendaBox");
 
@@ -77,14 +88,3 @@ form.addEventListener("submit", (event) => {
 	document.querySelector("#topicName").value = "";
 	selectDate();
 });
-
-cleanInput = () => topicName.value.trim().toUpperCase();
-//this is a shorter way of writing below code
-// //clean input
-// //remove space at start
-// topicNameValue =
-// 	topicNameValue[0] === " " ? topicNameValue.slice(1) : topicNameValue;
-// //empty space at end
-// topicNameValue[topicNameValue.length - 1] === " "
-// 	? topicNameValue.slice(0, topicNameValue.length - 1)
-// 	: topicNameValue;
