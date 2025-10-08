@@ -16,30 +16,40 @@ window.onload = function () {
 
 const selectedUser = document.querySelector("#userSelection");
 const displayAgenda = document.querySelector("#displayAgendaBox");
+
 // eventlistener to render an Agenda when chose a user
 selectedUser.addEventListener("change", (e) => {
   const selectedUserId = e.target.value;
   displayAgenda.innerHTML = "";
 
-  if (selectedUserId !== "default") {
-    const userData = getData(selectedUserId);
-    if (userData && userData.length > 0) {
-      const currentDate = new Date().toISOString().split("T")[0];
-      const futureDate = userData.filter((entry) => entry.date >= currentDate);
-      renderAgenda(futureDate);
-    } else {
-      displayAgenda.textContent = "Sorry, here is not upcoming revisions.";
-    }
-  } else {
-    displayAgenda.textContent = "We don't have an agenda for this user yet";
+  if (selectedUserId === "default") {
+    displayAgenda.textContent = "Please select a user to view their agenda.";
+    return;
   }
+
+  const userData = getData(selectedUserId);
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  if (!userData) {
+    displayAgenda.textContent = "There are no upcoming revisions for this user";
+    return;
+  }
+  const futureDate = userData.filter((entry) => entry.date >= currentDate);
+
+  renderAgenda(futureDate);
 });
+
 // rendered an Agenda as a list
 export function renderAgenda(data) {
+  displayAgenda.innerHTML = "";
   const list = document.createElement("ol");
   list.className = "agendaList";
 
-  data.forEach((entry) => {
+  const sortedData = [...data].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  sortedData.forEach((entry) => {
     const item = document.createElement("li");
     item.className = "itemAgendaList";
     item.textContent = `Topic: ${entry.topic}, Date: ${entry.date}`;

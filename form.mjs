@@ -82,10 +82,11 @@ form.addEventListener("submit", (event) => {
   if (updatedData && updatedData.length > 0) {
     const currentDate = new Date().toISOString().split("T")[0];
     const futureDate = updatedData.filter((entry) => entry.date >= currentDate);
+    futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
+    console.log("futureDate:", futureDate);
     renderAgenda(futureDate);
   }
   // cleaned the form
-  document.querySelector("#userSelection").value = "default";
   document.querySelector("#topicName").value = "";
   selectDate();
 });
