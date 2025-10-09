@@ -52,20 +52,20 @@ const displayAgenda = document.querySelector("#displayAgendaBox");
 const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "; //only alphanumeric and spaces
 
 const cleanInput = () => {
-	let topicNameValue = topicName.value.trim().toUpperCase();
+	let cleanedTopicValue = topicName.value.trim().toUpperCase();
 
-	if (topicNameValue.length > 50 || topicNameValue.length === 0) {
+	if (cleanedTopicValue.length > 50 || cleanedTopicValue.length === 0) {
 		alert("Must be betwen 1 and 50 characters");
 		return;
 	}
 	//checking allowed characters
-	for (let char of topicNameValue) {
+	for (let char of cleanedTopicValue) {
 		if (!topicsAllowedChars.includes(char)) {
 			alert("Allowed characters are A-Z, 0-9 and spaces");
 			return;
 		}
 	}
-	return topicNameValue;
+	return cleanedTopicValue;
 };
 
 form.addEventListener("submit", (event) => {
@@ -74,7 +74,7 @@ form.addEventListener("submit", (event) => {
 
 	const selectedUserValue = selectedUser.value;
 
-	cleanInput();
+	const topicNameValue = cleanInput();
 
 	const firstDateValue = firstDate.value;
 
