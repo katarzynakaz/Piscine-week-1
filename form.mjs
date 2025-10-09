@@ -4,14 +4,14 @@ import { renderAgenda } from "./script.mjs";
 //to submit the form
 const selectedUser = document.querySelector("#userSelection");
 const topicName = document.querySelector("#topicName");
-const submitBtn = document.querySelector(".btn");
+// const submitBtn = document.querySelector(".btn");
 const firstDate = document.querySelector("#firstDate");
 const topicAdded = document.querySelector("#topicAdded");
 
 export function selectDate() {
-  // const firstDate = () => new Date().toLocaleDateString() here this creates d/m/yyyy output which is compatible with the browser but not with input type date in form
-  //so I am sticking to below method
-  firstDate.value = new Date().toISOString().split("T")[0]; //this creates yyyy-mm-dd output which is compatible with input type date in form
+	// const firstDate = () => new Date().toLocaleDateString() here this creates d/m/yyyy output which is compatible with the browser but not with input type date in form
+	//so I am sticking to below method
+	firstDate.value = new Date().toISOString().split("T")[0]; //this creates yyyy-mm-dd output which is compatible with input type date in form
 }
 
 //this was the way I did it initially, and to make form submit on enter I am using submit event inbuild into form
@@ -49,44 +49,63 @@ export function selectDate() {
 const form = document.querySelector("form");
 const displayAgenda = document.querySelector("#displayAgendaBox");
 
+const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "; //only alphanumeric and spaces
+
+const cleanInput = () => {
+	let topicNameValue = topicName.value.trim().toUpperCase();
+
+	if (topicNameValue.length > 50 || topicNameValue.length === 0) {
+		alert("Must be betwen 1 and 50 characters");
+		return;
+	}
+	//checking allowed characters
+	for (let char of topicNameValue) {
+		if (!topicsAllowedChars.includes(char)) {
+			alert("Allowed characters are A-Z, 0-9 and spaces");
+			return;
+		}
+	}
+	return topicNameValue;
+};
+
 form.addEventListener("submit", (event) => {
-  // instead of click it is submit event
-  event.preventDefault(); // added this to show message topic added which was not showing because of the instant page reload on form submission
+	// instead of click it is submit event
+	event.preventDefault(); // added this to show message topic added which was not showing because of the instant page reload on form submission
 
-  const selectedUserValue = selectedUser.value;
-  // let topicNameValue = topicName.value;
-  let topicNameValue = topicName.value.trim().toUpperCase();
+	const selectedUserValue = selectedUser.value;
 
-  const firstDateValue = firstDate.value;
+	cleanInput();
 
-  if (
-    selectedUserValue === "default" ||
-    !firstDateValue ||
-    !topicNameValue ||
-    topicNameValue === ""
-  ) {
-    alert("Please fill all the fields");
-    return;
-  }
+	const firstDateValue = firstDate.value;
 
-  const newEntry = {
-    topic: topicNameValue,
-    date: firstDateValue,
-  };
-  addData(selectedUserValue, [newEntry]);
-  topicAdded.innerHTML = "Topic added";
+	if (
+		selectedUserValue === "default" ||
+		!firstDateValue ||
+		!topicNameValue ||
+		topicNameValue === ""
+	) {
+		alert("Please fill all the fields");
+		return;
+	}
 
-  // cleaned displayAgenda space and render updated an Agenda after submitting a new topic to the Agenda
-  displayAgenda.innerHTML = "";
-  const updatedData = getData(selectedUserValue);
-  if (updatedData && updatedData.length > 0) {
-    const currentDate = new Date().toISOString().split("T")[0];
-    const futureDate = updatedData.filter((entry) => entry.date >= currentDate);
-    futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
-    console.log("futureDate:", futureDate);
-    renderAgenda(futureDate);
-  }
-  // cleaned the form
-  document.querySelector("#topicName").value = "";
-  selectDate();
+	const newEntry = {
+		topic: topicNameValue,
+		date: firstDateValue,
+	};
+	addData(selectedUserValue, [newEntry]);
+	topicAdded.innerHTML = "Topic added";
+
+	// cleaned displayAgenda space and render updated an Agenda after submitting a new topic to the Agenda
+	displayAgenda.innerHTML = "";
+	const updatedData = getData(selectedUserValue);
+	if (updatedData && updatedData.length > 0) {
+		const currentDate = new Date().toISOString().split("T")[0];
+		const futureDate = updatedData.filter((entry) => entry.date >= currentDate);
+		futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
+		console.log("futureDate:", futureDate);
+		renderAgenda(futureDate);
+	}
+	// cleaned the form
+	document.querySelector("#topicName").value = "";
+	selectDate();
 });
