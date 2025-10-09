@@ -13,26 +13,27 @@
     <h1 class="px-3 mt-3 mb-5 text-primary">Spaced Repetition Tracker</h1>
 
     <!-- user selection dropdown -->
-    <div class="my-3 px-3">
-      <label for="userSelection" class="form-label"
-        >Select the user to view their revision dates</label
-      >
-      <select
-        id="userSelection"
-        class="form-select"
-        name="userSelection"
-        required
-      >
-        <option value="default">Select user</option>
-        <option value="option1">User 1</option>
-        <option value="option2">User 2</option>
-        <option value="option3">User 3</option>
-        <option value="option4">User 4</option>
-        <option value="option5">User 5</option>
-      </select>
-    </div>
 
     <form class="my-5 px-3">
+      <div>
+        <label for="userSelection" class="form-label"
+          >Select the user to view their revision dates</label
+        >
+        <select
+          id="userSelection"
+          class="form-select"
+          name="userSelection"
+          required
+        >
+          <option value="default">Select user</option>
+          <option value="option1">User 1</option>
+          <option value="option2">User 2</option>
+          <option value="option3">User 3</option>
+          <option value="option4">User 4</option>
+          <option value="option5">User 5</option>
+        </select>
+      </div>
+
       <h2 class="h4 mb-2">Add a new topic to the revision schedule</h2>
 
       <label for="firstDate">Select date:</label>
