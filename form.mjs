@@ -8,13 +8,13 @@ const firstDate = document.querySelector("#firstDate");
 const topicAdded = document.querySelector("#topicAdded");
 
 export function selectDate() {
-	firstDate.value = new Date().toISOString().split("T")[0]; //this creates yyyy-mm-dd output which is compatible with input type date in form
+	firstDate.value = new Date().toISOString().split("T")[0];
 }
 
 const form = document.querySelector("form");
 const displayAgenda = document.querySelector("#displayAgendaBox");
 
-const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "; // only alphanumeric and spaces
+const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
 
 const cleanInput = () => {
 	let cleanedTopicValue = topicName.value.trim().toUpperCase();
