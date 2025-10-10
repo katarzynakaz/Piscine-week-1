@@ -8,7 +8,7 @@ const firstDate = document.querySelector("#firstDate");
 const topicAdded = document.querySelector("#topicAdded");
 
 export function selectDate() {
-	firstDate.value = new Date().toISOString().split("T")[0];
+  firstDate.value = new Date().toISOString().split("T")[0];
 }
 
 const form = document.querySelector("form");
@@ -17,70 +17,70 @@ const displayAgenda = document.querySelector("#displayAgendaBox");
 const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ";
 
 const cleanInput = () => {
-	let cleanedTopicValue = topicName.value.trim().toUpperCase();
+  let cleanedTopicValue = topicName.value.trim().toUpperCase();
 
-	if (cleanedTopicValue.length === 0 || cleanedTopicValue.length > 50) {
-		alert("Topic must be between 1 and 50 characters.");
-		return null;
-	}
+  if (cleanedTopicValue.length === 0 || cleanedTopicValue.length > 50) {
+    alert("Topic must be between 1 and 50 characters.");
+    return null;
+  }
 
-	for (let char of cleanedTopicValue) {
-		if (!topicsAllowedChars.includes(char)) {
-			alert("Allowed characters are A-Z, 0-9, and spaces.");
-			return null;
-		}
-	}
+  for (let char of cleanedTopicValue) {
+    if (!topicsAllowedChars.includes(char)) {
+      alert("Allowed characters are A-Z, 0-9, and spaces.");
+      return null;
+    }
+  }
 
-	return cleanedTopicValue;
+  return cleanedTopicValue;
 };
 
 form.addEventListener("submit", (event) => {
-	event.preventDefault();
+  event.preventDefault();
 
-	const selectedUserValue = selectedUser.value;
-	const topicNameValue = cleanInput();
+  const selectedUserValue = selectedUser.value;
+  const topicNameValue = cleanInput();
 
-	const firstDateValue = firstDate.value;
-	const [year, month, day] = firstDateValue.split("-").map(Number);
-	const inputDate = new Date(year, month - 1, day);
+  const firstDateValue = firstDate.value;
+  const [year, month, day] = firstDateValue.split("-").map(Number);
+  const inputDate = new Date(year, month - 1, day);
 
-	const revisionDates = [
-		addDays(inputDate, 7),
-		addMonths(inputDate, 1),
-		addMonths(inputDate, 3),
-		addMonths(inputDate, 6),
-		addYears(inputDate, 1),
-	];
+  const revisionDates = [
+    addDays(inputDate, 7),
+    addMonths(inputDate, 1),
+    addMonths(inputDate, 3),
+    addMonths(inputDate, 6),
+    addYears(inputDate, 1),
+  ];
 
-	const newEntries = revisionDates.map((date) => ({
-		topic: topicNameValue,
-		date: format(date, "yyyy-MM-dd"),
-	}));
+  const newEntries = revisionDates.map((date) => ({
+    topic: topicNameValue,
+    date: format(date, "yyyy-MM-dd"),
+  }));
 
-	if (
-		selectedUserValue === "default" ||
-		!firstDateValue ||
-		!topicNameValue ||
-		topicNameValue === ""
-	) {
-		alert("Please fill all the fields");
-		return;
-	}
+  if (
+    selectedUserValue === "default" ||
+    !firstDateValue ||
+    !topicNameValue ||
+    topicNameValue === ""
+  ) {
+    alert("Please fill all the fields");
+    return;
+  }
 
-	addData(selectedUserValue, newEntries);
-	topicAdded.innerHTML = "Topic added";
+  addData(selectedUserValue, newEntries);
+  topicAdded.innerHTML = "Topic added";
 
-	displayAgenda.innerHTML = "";
+  displayAgenda.innerHTML = "";
 
-	const updatedData = getData(selectedUserValue);
-	if (updatedData && updatedData.length > 0) {
-		const futureDate = updatedData.filter(
-			(entry) => new Date(entry.date) >= new Date()
-		);
-		futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
-		renderAgenda(futureDate);
-	}
+  const updatedData = getData(selectedUserValue);
+  if (updatedData && updatedData.length > 0) {
+    const futureDate = updatedData.filter(
+      (entry) => new Date(entry.date) >= new Date(firstDateValue)
+    );
+    futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
+    renderAgenda(futureDate);
+  }
 
-	document.querySelector("#topicName").value = "";
-	selectDate();
+  document.querySelector("#topicName").value = "";
+  selectDate();
 });
