@@ -12,7 +12,6 @@
 	<body>
 		<h1 class="px-3 mt-3 mb-5 text-primary">Spaced Repetition Tracker</h1>
 
-		<!-- user selection dropdown -->
 		<div class="my-3 px-3">
 			<label for="userSelection" class="form-label"
 				>Select the user to view their revision dates</label
@@ -36,7 +35,7 @@
 			<h2 class="h4 mb-2">Add a new topic to the revision schedule</h2>
 
 			<label for="firstDate">Select date:</label>
-			<!-- <input type="date" caused issue with the date being shown as default dd-mm-yyyy> -->
+
 			<input
 				type="date"
 				id="firstDate"
@@ -45,7 +44,7 @@
 				required
 			/>
 			<span id="dateDisplay"></span>
-			<!-- shows DD-MM-YYYY for the user -->
+
 			<br />
 			<label for="topicName">Subject:</label>
 			<input
@@ -63,9 +62,7 @@
 			<span id="topicAdded" class="text-success my-2"></span>
 		</form>
 		<div id="displayAgendaBox"></div>
-		<!-- // added space to display an Agenda -->
+
 		<script src="script.mjs" type="module"></script>
-		<!-- // here all are imported in the script.js so this import is not needed <script src="storage.mjs" type="module"></script> -->
-		<script type="module" src="test_data.mjs"></script>
 	</body>
 </html>
