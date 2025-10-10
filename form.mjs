@@ -1,5 +1,6 @@
 import { addData, getData } from "./storage.mjs";
 import { renderAgenda } from "./script.mjs";
+import { addDays, addMonths, addYears, format } from "https://esm.sh/date-fns";
 
 //to submit the form
 const selectedUser = document.querySelector("#userSelection");
@@ -58,6 +59,21 @@ form.addEventListener("submit", (event) => {
   let topicNameValue = topicName.value.trim().toUpperCase();
 
   const firstDateValue = firstDate.value;
+  const [year, month, day] = firstDateValue.split("-").map(Number);
+  const inputDate = new Date(year, month - 1, day);
+
+  const revisionDates = [
+    addDays(inputDate, 7),
+    addMonths(inputDate, 1),
+    addMonths(inputDate, 3),
+    addMonths(inputDate, 6),
+    addYears(inputDate, 1),
+  ];
+
+  const newEntries = revisionDates.map((date) => ({
+    topic: topicNameValue,
+    date: format(date, "yyyy-MM-dd"),
+  }));
 
   if (
     selectedUserValue === "default" ||
@@ -69,11 +85,7 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  const newEntry = {
-    topic: topicNameValue,
-    date: firstDateValue,
-  };
-  addData(selectedUserValue, [newEntry]);
+  addData(selectedUserValue, newEntries);
   topicAdded.innerHTML = "Topic added";
 
   // cleaned displayAgenda space and render updated an Agenda after submitting a new topic to the Agenda
@@ -81,7 +93,9 @@ form.addEventListener("submit", (event) => {
   const updatedData = getData(selectedUserValue);
   if (updatedData && updatedData.length > 0) {
     const currentDate = new Date().toISOString().split("T")[0];
-    const futureDate = updatedData.filter((entry) => entry.date >= currentDate);
+    const futureDate = updatedData.filter(
+      (entry) => new Date(entry.date) >= new Date()
+    );
     futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
     console.log("futureDate:", futureDate);
     renderAgenda(futureDate);
