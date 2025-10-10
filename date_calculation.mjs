@@ -1,11 +1,4 @@
-import {
-  addDays,
-  addMonths,
-  addYears,
-  format,
-  differenceInCalendarDays,
-  differenceInMonths,
-} from "https://esm.sh/date-fns";
+import { addDays, addMonths, addYears, format } from "https://esm.sh/date-fns";
 
 let inputValue = document.querySelector("#start").value;
 const [year, month, day] = inputValue.split("-").map(Number);
