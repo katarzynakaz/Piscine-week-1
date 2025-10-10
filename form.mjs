@@ -78,6 +78,23 @@ form.addEventListener("submit", (event) => {
 
 	const firstDateValue = firstDate.value;
 
+	const [year, month, day] = firstDateValue.split("-").map(Number);
+
+	const inputDate = new Date(year, month - 1, day);
+
+	const revisionDates = [
+		addDays(inputDate, 7),
+		addMonths(inputDate, 1),
+		addMonths(inputDate, 3),
+		addMonths(inputDate, 6),
+		addYears(inputDate, 1),
+	];
+
+	const newEntries = revisionDates.map((date) => ({
+		topic: topicNameValue,
+		date: format(date, "yyyy-MM-dd"),
+	}));
+
 	if (
 		selectedUserValue === "default" ||
 		!firstDateValue ||
@@ -88,11 +105,13 @@ form.addEventListener("submit", (event) => {
 		return;
 	}
 
-	const newEntry = {
-		topic: topicNameValue,
-		date: firstDateValue,
-	};
-	addData(selectedUserValue, [newEntry]);
+	// const newEntry = {
+	// 	topic: topicNameValue,
+	// 	date: firstDateValue,
+	// };
+
+	addData(selectedUserValue, newEntries);
+	// addData(selectedUserValue, [newEntry]);
 	topicAdded.innerHTML = "Topic added";
 
 	// cleaned displayAgenda space and render updated an Agenda after submitting a new topic to the Agenda
