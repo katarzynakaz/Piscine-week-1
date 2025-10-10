@@ -74,7 +74,6 @@ form.addEventListener("submit", (event) => {
 
 	const updatedData = getData(selectedUserValue);
 	if (updatedData && updatedData.length > 0) {
-		const currentDate = new Date().toISOString().split("T")[0];
 		const futureDate = updatedData.filter(
 			(entry) => new Date(entry.date) >= new Date()
 		);
