@@ -50,13 +50,35 @@ export function selectDate() {
 const form = document.querySelector("form");
 const displayAgenda = document.querySelector("#displayAgendaBox");
 
+const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "; // only alphanumeric and spaces
+
+const cleanInput = () => {
+  let cleanedTopicValue = topicName.value.trim().toUpperCase();
+
+  // Length validation
+  if (cleanedTopicValue.length === 0 || cleanedTopicValue.length > 50) {
+    alert("Topic must be between 1 and 50 characters.");
+    return null;
+  }
+
+  // Allowed characters check
+  for (let char of cleanedTopicValue) {
+    if (!topicsAllowedChars.includes(char)) {
+      alert("Allowed characters are A-Z, 0-9, and spaces.");
+      return null;
+    }
+  }
+
+  return cleanedTopicValue;
+};
+
 form.addEventListener("submit", (event) => {
   // instead of click it is submit event
   event.preventDefault(); // added this to show message topic added which was not showing because of the instant page reload on form submission
 
   const selectedUserValue = selectedUser.value;
   // let topicNameValue = topicName.value;
-  let topicNameValue = topicName.value.trim().toUpperCase();
+  const topicNameValue = cleanInput();
 
   const firstDateValue = firstDate.value;
   const [year, month, day] = firstDateValue.split("-").map(Number);
@@ -75,13 +97,8 @@ form.addEventListener("submit", (event) => {
     date: format(date, "yyyy-MM-dd"),
   }));
 
-  if (
-    selectedUserValue === "default" ||
-    !firstDateValue ||
-    !topicNameValue ||
-    topicNameValue === ""
-  ) {
-    alert("Please fill all the fields");
+  if (selectedUserValue === "default" || !firstDateValue || !topicNameValue) {
+    alert("Please fill all the fields correctly.");
     return;
   }
 
