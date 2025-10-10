@@ -1,5 +1,6 @@
 import { addData, getData } from "./storage.mjs";
 import { renderAgenda } from "./script.mjs";
+import { addDays, addMonths, addYears, format } from "https://esm.sh/date-fns";
 
 //to submit the form
 const selectedUser = document.querySelector("#userSelection");
@@ -49,22 +50,25 @@ export function selectDate() {
 const form = document.querySelector("form");
 const displayAgenda = document.querySelector("#displayAgendaBox");
 
-const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "; //only alphanumeric and spaces
+const topicsAllowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "; // only alphanumeric and spaces
 
 const cleanInput = () => {
 	let cleanedTopicValue = topicName.value.trim().toUpperCase();
 
-	if (cleanedTopicValue.length > 50 || cleanedTopicValue.length === 0) {
-		alert("Must be betwen 1 and 50 characters");
-		return;
+	// Length validation
+	if (cleanedTopicValue.length === 0 || cleanedTopicValue.length > 50) {
+		alert("Topic must be between 1 and 50 characters.");
+		return null;
 	}
-	//checking allowed characters
+
+	// Allowed characters check
 	for (let char of cleanedTopicValue) {
 		if (!topicsAllowedChars.includes(char)) {
-			alert("Allowed characters are A-Z, 0-9 and spaces");
-			return;
+			alert("Allowed characters are A-Z, 0-9, and spaces.");
+			return null;
 		}
 	}
+
 	return cleanedTopicValue;
 };
 
@@ -73,13 +77,11 @@ form.addEventListener("submit", (event) => {
 	event.preventDefault(); // added this to show message topic added which was not showing because of the instant page reload on form submission
 
 	const selectedUserValue = selectedUser.value;
-
+	// let topicNameValue = topicName.value;
 	const topicNameValue = cleanInput();
 
 	const firstDateValue = firstDate.value;
-
 	const [year, month, day] = firstDateValue.split("-").map(Number);
-
 	const inputDate = new Date(year, month - 1, day);
 
 	const revisionDates = [
@@ -119,7 +121,9 @@ form.addEventListener("submit", (event) => {
 	const updatedData = getData(selectedUserValue);
 	if (updatedData && updatedData.length > 0) {
 		const currentDate = new Date().toISOString().split("T")[0];
-		const futureDate = updatedData.filter((entry) => entry.date >= currentDate);
+		const futureDate = updatedData.filter(
+			(entry) => new Date(entry.date) >= new Date()
+		);
 		futureDate.sort((a, b) => new Date(a.date) - new Date(b.date));
 		console.log("futureDate:", futureDate);
 		renderAgenda(futureDate);
